@@ -1,0 +1,12 @@
+{
+  "name": "golem",
+  "version": "0.0.1",
+  "description": "A static site genarator",
+  "author": "Erick Zanardo <erickzanardoo@gmail.com>",
+  "dependencies": {
+    "findit": "^2.0.0",
+    "mkdirp": "^0.5.0",
+    "rekuire": "^0.1.9",
+    "rimraf": "^2.2.8"
+  }
+}
