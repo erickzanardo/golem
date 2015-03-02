@@ -14,22 +14,42 @@ Golem.prototype.process = function(callback) {
   var finder = findit(this.src);
 
   var entries = [];
+  var prepare = [];
   finder.on('path', function (file, stat) {
-    var entry = new Entry(file, file.replace(src, dest));
-    entries.push(entry);
-    if (entry.processor().stop) {
-      finder.stop();
+    var entry = new Entry(file, src, dest);
+    if (entry.name().indexOf('_') !== 0) {
+      entries.push(entry);
     }
   });
 
   finder.on('end', function () {
-    processEntries();
+    prepare = [].concat(entries);
+    prepareEntries();
   });
+
+  var prepareEntries = function() {
+    if (prepare.length) {
+      var entry = prepare.shift();
+      var processor = entry.processor();
+      if (processor.prepare) {
+        processor.prepare(prepareEntries);
+      } else {
+        prepareEntries();
+      }
+    } else {
+      processEntries();
+    }
+  };
 
   var processEntries = function() {
     if (entries.length) {
       var entry = entries.shift();
-      entry.processor().process(processEntries);
+      var processor = entry.processor();
+      if (processor.process) {
+        processor.process(processEntries);
+      } else {
+        processEntries();
+      }
     } else {
       callback();
     }

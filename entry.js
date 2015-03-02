@@ -2,12 +2,15 @@ var rk = require('rekuire');
 
 var processorFactory = rk('processors/processor_factory.js');
 
-function Entry(path, dest) {
+function Entry(path, golemSrc, golemDest) {
   this._path = path;
-  this._dest = dest;
+  this._dest = path.replace(golemSrc, golemDest);
   
-  var split = path.split('/');
+  var split = path.replace(golemSrc, '').split('/');
   this._name = split[split.length - 1];
+  this._parent = split[split.length - 2];
+  this._grandParent = split[split.length - 3];
+
   this._processor = processorFactory.getProcessor(this);
 }
 
@@ -21,6 +24,14 @@ Entry.prototype.dest = function() {
 
 Entry.prototype.name = function() {
   return this._name;
+};
+
+Entry.prototype.parent = function() {
+  return this._parent;
+};
+
+Entry.prototype.grandParent = function() {
+  return this._grandParent;
 };
 
 Entry.prototype.processor = function() {
