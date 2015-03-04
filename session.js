@@ -25,9 +25,13 @@ Templates.prototype.process = function(templateName, data) {
 };
 
 function Session() {
-  this._entities = {};
-  this._templates = {}
+  this.clear();
 }
+
+Session.prototype.clear = function() {
+  this._entities = {};
+  this._templates = {};
+};
 
 Session.prototype.addEntity = function(kind, entity) {
   this._entities[kind] = this._entities[kind] || [];

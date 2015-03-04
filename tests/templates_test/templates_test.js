@@ -19,6 +19,7 @@ describe('Golem#Templates', function() {
 
     var golem = new Golem('/tmp/static_templates', '/tmp/static_templates_generated');
     it('Templates must be the session and processing data', function(done) {
+      session.clear();
       golem.process(function() {
         var templates = session.getTemplates(''); // Root
         assert.equal(1, templates.length());

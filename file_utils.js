@@ -37,7 +37,7 @@ TestUtils.prototype.exists = function(src, callback) {
 
 TestUtils.prototype.read = function(src, callback) {
   if (!callback)
-    return fs.readFileSync(this.path(src));
+    return fs.readFileSync(this.path(src), 'utf8');
   else
     fs.readFile(this.path(src), 'utf8', function(err, data) {
       callback(data);
