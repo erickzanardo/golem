@@ -1,0 +1,11 @@
+{
+  "name": "golem-devserver",
+  "version": "0.0.1",
+  "description": "Golem devserver plugin",
+  "author": "Erick Zanardo <erickzanardoo@gmail.com>",
+  "main": "golem_devserver.js",
+  "dependencies": {
+    "finalhandler": "^0.3.3",
+    "serve-static": "^1.9.1"
+  }
+}

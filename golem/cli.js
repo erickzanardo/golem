@@ -4,12 +4,41 @@ var Golem = require('golem')
 var args = process.argv;
 var cwd = process.cwd();
 
-var action = args.pop();
-// TODO verify if action is a plugin
+var pluginName = null;
+var path = null;
 
-var path = action;
+var validUsage = false;
+if (args.length == 4) {
+  pluginName = args.pop();
+  path = args.pop();
+  validUsage = true;
+} else if(args.length == 3) {
+  path = args.pop();
+  validUsage = true;
+}
 
-var golem = new Golem(cwd, path);
-golem.process(function() {
-  console.log('Golem process finished!');
-});
+if (validUsage) {
+  var golem = new Golem(cwd, path);
+
+  golem.process(function() {
+    if (pluginName) {
+      try {
+        var plugin = require('golem-' + pluginName);
+        plugin.execute(golem);
+      } catch (e) {
+        console.log(e);
+        if (e.code == 'MODULE_NOT_FOUND') {
+          console.log(' There is no plugin "' + pluginName + '" installed ');
+          console.log(' Maybe you need to install it running "npm instal golem-'+ pluginName +  ' -g" ');
+        } else {
+          throw e;
+        }
+      }
+    } else {
+      console.log('Golem process finished!');
+    }
+  });
+} else {
+  console.log(' Invalid command ');
+  console.log('  Usage: golem /DEST/PATH [plugin_name] ');
+}
