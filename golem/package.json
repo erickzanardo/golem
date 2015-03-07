@@ -4,11 +4,14 @@
   "description": "A static site genarator",
   "author": "Erick Zanardo <erickzanardoo@gmail.com>",
   "main": "golem.js",
-  "bin" : { "golem" : "./cli.js" },
+  "bin": {
+    "golem": "./cli.js"
+  },
   "dependencies": {
     "dot": "^1.0.3",
     "eval2": "^0.3.1",
     "findit": "^2.0.0",
+    "marked": "^0.3.3",
     "mkdirp": "^0.5.0",
     "rekuire": "^0.1.9",
     "rimraf": "^2.2.8"

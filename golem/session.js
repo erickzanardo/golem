@@ -1,5 +1,7 @@
 var dot = require('dot')
+var marked = require('marked');
 
+// Templates
 function Templates() {
   this._length = 0;
   this._templates = {};
@@ -23,6 +25,30 @@ Templates.prototype.process = function(templateName, data) {
     return template.compiledFunc(data);
   }
 };
+// Markdowns
+function Markdowns() {
+  this._length = 0;
+  this._mds = {};
+}
+
+Markdowns.prototype.addMd = function(name, md) {
+  this._length++;
+  this._mds[name] = {md: md};
+};
+
+Markdowns.prototype.length = function() {
+  return this._length;
+};
+
+Markdowns.prototype.process = function(mdName) {
+  var md = this._mds[mdName];
+  if (md) {
+    if (!md.compiledValue) {
+      md.compiledValue = marked(md.md);
+    }
+    return md.compiledValue;
+  }
+};
 
 function Session() {
   this.clear();
@@ -31,6 +57,7 @@ function Session() {
 Session.prototype.clear = function() {
   this._entities = {};
   this._templates = {};
+  this._mds = {};
 };
 
 Session.prototype.addEntity = function(kind, entity) {
@@ -43,8 +70,17 @@ Session.prototype.addTemplate = function(kind, templateName, html) {
   this._templates[kind].addTemplate(templateName, html);
 };
 
+Session.prototype.addMd = function(kind, mdName, md) {
+  this._mds[kind] = this._mds[kind] || new Markdowns();
+  this._mds[kind].addMd(mdName, md);
+};
+
 Session.prototype.getTemplates = function(kind) {
   return this._templates[kind];
+};
+
+Session.prototype.getMds = function(kind) {
+  return this._mds[kind];
 };
 
 Session.prototype.getEntities = function(kind) {
