@@ -3,8 +3,10 @@ Golem is a static site genarator that can emulate sites with dynamic behaviour. 
 
 ## Install
 
+Clone this repo on your computer and execute on the CLONED_REPO_PATH/golem
+
 ```bash
-npm install golem -g
+npm install . -g
 ```
 
 ## Command syntax
