@@ -17,6 +17,13 @@ TestUtils.prototype.makeFolder = function(src, callback) {
   });
 };
 
+TestUtils.prototype.makeFileRaw = function(src, content, callback) {
+  if (!callback)
+    fs.writeFileSync(this.path(src), content);
+  else
+    fs.writeFile(this.path(src), content, callback);
+};
+
 TestUtils.prototype.makeFile = function(src, content, callback) {
   if (!callback)
     fs.writeFileSync(this.path(src), content, 'utf8');
@@ -33,6 +40,15 @@ TestUtils.prototype.exists = function(src, callback) {
     return fs.existsSync(this.path(src));
   else 
     fs.exists(this.path(src), callback);
+};
+
+TestUtils.prototype.readRaw = function(src, callback) {
+  if (!callback)
+    return fs.readFileSync(this.path(src));
+  else
+    fs.readFile(this.path(src), function(err, data) {
+      callback(data);
+    });
 };
 
 TestUtils.prototype.read = function(src, callback) {

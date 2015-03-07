@@ -15,8 +15,8 @@ StaticProcessor.prototype.process = function(done) {
     if (stat.isDirectory()) {
       utils.makeFolder(dest, done);
     } else {
-      utils.read(path, function(content) {
-        utils.makeFile(dest, content, done);
+      utils.readRaw(path, function(content) {
+        utils.makeFileRaw(dest, content, done);
       });
     }
   });
