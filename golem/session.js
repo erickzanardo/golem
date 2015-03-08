@@ -12,6 +12,15 @@ Templates.prototype.addTemplate = function(name, html) {
   this._templates[name] = {html: html};
 };
 
+Templates.prototype.getHtml = function(templateName) {
+  var template = this._templates[templateName];
+  var html = null;
+  if (template) {
+    html = template.html;
+  }
+  return html;
+};
+
 Templates.prototype.length = function() {
   return this._length;
 };
