@@ -8,6 +8,12 @@ function Golem(src, dest) {
   this.dest = dest;
 }
 
+var ignoreFiles = [
+  '.swp',
+  '.swx',
+  '.swo'
+];
+
 Golem.prototype.process = function(callback) {
   var src = this.src;
   var dest = this.dest;
@@ -16,9 +22,21 @@ Golem.prototype.process = function(callback) {
   var entries = [];
   var prepare = [];
   finder.on('path', function (file, stat) {
-    var entry = new Entry(file, src, dest);
-    if (entry.name().indexOf('_') !== 0) {
-      entries.push(entry);
+    var validFile = true;
+
+    for(var i = 0; i < ignoreFiles.length; i++) {
+      var suffix = ignoreFiles[i];
+      if(file.indexOf(suffix) != -1) {
+        validFile = false;
+        break;
+      }
+    }
+
+    if(validFile) {
+      var entry = new Entry(file, src, dest);
+      if (entry.name().indexOf('_') !== 0) {
+        entries.push(entry);
+      }
     }
   });
 

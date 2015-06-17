@@ -38,11 +38,17 @@ Templates.prototype.process = function(templateName, data) {
 function Markdowns() {
   this._length = 0;
   this._mds = {};
+  this._names = [];
 }
 
 Markdowns.prototype.addMd = function(name, md) {
   this._length++;
   this._mds[name] = {md: md};
+  this._names.push(name);
+};
+
+Markdowns.prototype.getName = function(i) {
+  return this._names[i];
 };
 
 Markdowns.prototype.length = function() {
