@@ -11,7 +11,8 @@ function Golem(src, dest) {
 var ignoreFiles = [
   '.swp',
   '.swx',
-  '.swo'
+  '.swo',
+  '.git'
 ];
 
 Golem.prototype.process = function(callback) {
